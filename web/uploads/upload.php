@@ -1,7 +1,8 @@
 <?php
 #phpinfo();
 $uploads_dir = './files';
-$destination = $uploads_dir."/".$_FILES["upfile"]["name"];
+#$destination = $uploads_dir."/".$_FILES["upfile"]["name"];
+$destination = $uploads_dir."/bild.jpg";
 #print_r($_FILES["upfile"]["tmp_name"]);
 print_r($_FILES);
 print("\n uploaded $destination");
