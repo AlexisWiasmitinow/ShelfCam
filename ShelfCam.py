@@ -6,38 +6,38 @@ import RPi.GPIO as GPIO
 import time
 import datetime
 import getopt
-from takepic import *
+#from takepic import *
 from upload import *
+from threading import Thread
+import time, multiprocessing, sys, getopt
+import numpy as np
+from GUI import *
+from pivideostream import PiVideoStream
+vs = PiVideoStream((1920, 1088)).start()
+time.sleep(1)
 
-switchPin=21
-voltagePin=16
-picNo=0
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-GPIO.setup(voltagePin,GPIO.OUT)
-GPIO.output(voltagePin, True)
-GPIO.setup(switchPin,GPIO.IN)
-lastValue=0
-picDelay=1
-lastTime=0
-print("picSavePath: ",picSavePath)
-while True:
-	now=time.time()
-	value = GPIO.input(switchPin)
-	#print("we read: ",value)
-	#if value==1 and lastValue==0:
-	if value==1 and now-lastTime>=picDelay:
-		print("take picNo: ",picNo)
-		takePic(str(picNo).zfill(3))
-		picNo=picNo+1
-		lastTime=now
-	elif value==0 and lastValue==1:
-		print("last picNo: ",picNo)
-		if now-lastTime>=picDelay:
-			upload(str(picNo-1).zfill(3),picSavePath)
-			DeleteImages()
-		else:
-			upload(str(picNo-2).zfill(3),picSavePath)
-			DeleteImages()
-	lastValue=value
-	if value==0: time.sleep(0.1)
+
+def guiThread():
+	root = Tk()
+	root.geometry("800x270+0+0")
+	app = Window(root)
+	root.mainloop()
+
+t_gui=Thread(target=guiThread)
+t_gui.start()
+runVideo=True
+
+
+#print("picSavePath: ",picSavePath)
+while (runVideo==True):
+	#print("mainloop")
+	runVideo=guiCommands['runVideo']
+	frame = vs.readCropped(20,36,44,15)
+	#frame = vs.read()
+	#print("shape:",frame.shape[:2])
+	cv2.imshow('Test',frame)
+	if cv2.waitKey(1) & 0xFF == ord('q'):
+		runVideo=False
+		break
+	#time.sleep(0.1)
+	
