@@ -9,21 +9,15 @@ GeneralSettings['InstallPath']='/home/pi/ShelfCam/'
  
  
  
-#guiCommands={}
-#guiParams['ObjectDetectVar']=0.0
-#guiParams['ImageThreshold']=80
-#guiParams['zoom_x1']=50
-#guiParams['zoom_x2']=100
-#guiParams['zoom_y1']=0
-#guiParams['zoom_y2']=100
-#guiParams['contour_to_find']=0
-#guiParams['ShutterSpeed']=1
-#guiParams['ImgPath']='gui_images/red.png'
-#guiParams['RecognitionMethod']=1
-#guiParams['BoxMax']=[0,0]
-#guiParams['BoxMin']=[0,0]
-#guiParams['EmptyBoxes']=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
-#guiParams['MaxObjectArea']=0
+guiCommands={}
+guiCommands['previewRaw']=False
+guiCommands['previewComputed']=False
+guiCommands['runVideo']=True
+guiCommands['emptyCommandQueue']=False
+guiCommands['cropleft']=0
+guiCommands['cropright']=0
+guiCommands['croptop']=0
+guiCommands['cropbottom']=0
  
 def preload_settings():
     f = open(str(GeneralSettings['InstallPath'])+'settings.txt', 'r')
@@ -34,21 +28,23 @@ def preload_settings():
         GeneralSettings[k]=v
     #print("gen sett loaded",GeneralSettings) 
      
-def load_settings(newType):
+def load_settings():
     f = open(str(GeneralSettings['InstallPath'])+'settings.txt', 'r')
     readLines=f.readlines()
     f.close()
     #print(" loaded type from file:",GeneralSettings['SelectedType'])
-    GeneralSettingsRead=eval(readLines[0])
-    for k,v in GeneralSettingsRead.items():
-        GeneralSettings[k]=v
-    GeneralSettings['SelectedType']=newType
-    readDict=eval(readLines[int(GeneralSettings['SelectedType'])])
+    SettingsRead=eval(readLines[0])
+    settings={}
+    for k,v in SettingsRead.items():
+        guiCommands[k]=v
+    #GeneralSettings['SelectedType']=newType
+    #readDict=eval(readLines[int(GeneralSettings['SelectedType'])])
     #print(" readdict:",readDict)
     #print(" readlines:",readLines[GeneralSettings['SelectedType']])
-    for k,v in readDict.items():
-        guiParams[k]=v
+    #for k,v in readDict.items():
+    #    guiParams[k]=v
     #print("gui Params loaded",guiParams)
+    return settings 
      
 def save_settings(guiCommands):
 	print("guiCommands:", guiCommands)

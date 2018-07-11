@@ -1,1 +1,1 @@
-{'emptyCommandQueue': False, 'angle': 0, 'light': False, 'move': 'none', 'previewRaw': True, 'targetsize': 50, 'drive': 50, 'autoRoll': False, 'autoServo': False, 'previewComputed': False, 'threshold': 50, 'autoTurn': False, 'rotation': 30, 'runVideo': True}
+{'cropleft': 25, 'emptyCommandQueue': False, 'previewRaw': True, 'cropright': 51, 'previewComputed': False, 'croptop': 53, 'runVideo': True, 'cropbottom': 8}

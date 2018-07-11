@@ -8,28 +8,14 @@ import Queue
 import string
 import time
 from multiprocessing import Process, Value, Queue
-guiCommands={}
-guiCommands['move']='none'
-guiCommands['light']=False
-guiCommands['angle']=0
-guiCommands['autoServo']=False
-guiCommands['autoRoll']=False
-guiCommands['autoTurn']=False
-guiCommands['previewRaw']=False
-guiCommands['previewComputed']=False
-guiCommands['runVideo']=True
-guiCommands['emptyCommandQueue']=False
-guiCommands['targetsize']=100
-guiCommands['threshold']=100
-guiCommands['rotation']=100
-guiCommands['drive']=100
-global GUI_Message
 
 class Window(Frame):
 	def __init__(self, master=None):
 		Frame.__init__(self, master)
 		self.master = master
 		self.init_window()
+		guiCommands=load_settings()
+		self.loadSettings()
 		
 	#Creation of init_window
 	def init_window(self):   
@@ -46,7 +32,7 @@ class Window(Frame):
 			#Button(self, text="Vor", command=lambda: self.moveTo("forward")).grid(row=SetRow, column=3)
 			#Button(self, text="Hoch", command=lambda: self.lookTo(2)).grid(row=SetRow, column=6)
 			
-			self.croptop = Scale(self, orient='horizontal', from_=0, to=500, length=slider_Length, command=self.update)
+			self.croptop = Scale(self, orient='horizontal', from_=0, to=100, length=slider_Length, command=self.update)
 			self.croptop.grid(row=SetRow, column=7, columnspan=2)
 			self.croptop.set(0)
 			self.croptopLabel=Label(self, text="Zuschnitt Oben")
@@ -55,7 +41,7 @@ class Window(Frame):
 			#Button(self, text="V 300", command=lambda: self.moveTo("mf300")).grid(row=SetRow, column=3)
 			#SetRow+=1
 			#Button(self, text="V 50", command=lambda: self.moveTo("mf50")).grid(row=SetRow, column=3)
-			self.cropbottom = Scale(self, orient='horizontal', from_=0, to=500, length=slider_Length, command=self.update)
+			self.cropbottom = Scale(self, orient='horizontal', from_=0, to=100, length=slider_Length, command=self.update)
 			self.cropbottom.grid(row=SetRow, column=7, columnspan=2)
 			self.cropbottom.set(0)
 			#self.leftAngle=StringVar()
@@ -127,6 +113,12 @@ class Window(Frame):
 			Button(self, text="Beenden", command=self.client_exit).grid(row=SetRow, column=SetCol,columnspan=2)
 	def saveSettings(self):
 		save_settings(guiCommands);
+		
+	def loadSettings(self):
+		self.croptop.set(guiCommands['croptop'])
+		self.cropbottom.set(guiCommands['cropbottom'])
+		self.cropleft.set(guiCommands['cropleft'])
+		self.cropright.set(guiCommands['cropright'])
 			
 	def previewSwitch(self):
 		guiCommands['previewRaw']= not guiCommands['previewRaw']
@@ -176,50 +168,13 @@ class Window(Frame):
 		lookTo(guiCommands['angle'])
 		print("look to: ",guiCommands['angle'])
 		
-	def moveTo(self,command):
-		print("moveto function",command)
-		commandNew="none"
-		if command=="forward":
-			#print("update function forward",command)
-			inputVal=self.forwardDist.get()
-			if int(inputVal)>0:
-				commandNew="mf"+str(inputVal)
-			else:
-				commandNew="none"
-		elif command=="backward":
-			inputVal=self.backwardDist.get()
-			if int(inputVal)>0:
-				commandNew="mb"+str(inputVal)
-			else:
-				commandNew="none"
-		elif command=="left":
-			inputVal=self.leftAngle.get()
-			if int(inputVal)>0:
-				commandNew="tl"+str(inputVal)
-			else:
-				commandNew="none"
-		elif command=="right":
-			inputVal=self.rightAngle.get()
-			if int(inputVal)>0:
-				commandNew="tr"+str(inputVal)
-			else:
-				commandNew="none"
-		elif command=="stop":
-			disableMotors()
-			lookTo(0)
-			guiCommands['angle']=0
-			guiCommands['emptyCommandQueue']=True
-		else:
-			commandNew=command
-		print("update function command",commandNew)
-		guiCommands['move']=commandNew
+	
 
 	def update(self,value):
-		guiCommands['targetsize']=self.slider_target.get()
-		guiCommands['threshold']=self.slider_threshold.get()
-		guiCommands['rotation']=self.slider_rotation.get()
-		guiCommands['drive']=self.slider_drive.get()
-		
+		guiCommands['croptop']=self.croptop.get()
+		guiCommands['cropbottom']=self.cropbottom.get()
+		guiCommands['cropleft']=self.cropleft.get()
+		guiCommands['cropright']=self.cropright.get()
 
 	def client_exit(self):
 		guiCommands['runVideo']=False

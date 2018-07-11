@@ -79,8 +79,12 @@ class PiVideoStream:
 		self.cropped=self.frame[self.cropY1:self.cropY2, self.cropX1:self.cropX2]
 		#print("cropx1: ",self.cropX1)
 		#print("cropx2: ",self.cropX2)
-		#print("x1: ",x1)
-		#print("x2: ",x2)
+		'''
+		print("x1: ",x1)
+		print("x2: ",x2)
+		print("y1: ",y1)
+		print("y2: ",y2)
+		'''
 		#self.cropped=self.frame[10:400, 10:600]
 		return self.cropped
 		

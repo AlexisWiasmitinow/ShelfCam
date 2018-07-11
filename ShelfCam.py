@@ -45,22 +45,27 @@ def main(argv):
 			use_gui=int(a)
 		
 	t_gui=Thread(target=guiThread)
-	if use_gui>0: t_gui.start()
+	if use_gui>0: 
+		t_gui.start()
+	else:
+		load_settings()
+		print("set guiCommands nogui:",guiCommands)
+		guiCommands['previewRaw']=False
 	runVideo=True
 	#print("picSavePath: ",picSavePath)
 	while (runVideo==True):
 		#print("mainloop")
 		runVideo=guiCommands['runVideo']
-		grabbedFrame = vs.readCropped(20,36,44,15)
+		grabbedFrame = vs.readCropped(guiCommands['cropleft'],guiCommands['croptop'],guiCommands['cropright'],guiCommands['cropbottom'])
 		Live=ContourOperations()
 		Live.split_colors(grabbedFrame)
 		#frame = vs.read()
-		#print("shape:",frame.shape[:2])
+		print("shape:",grabbedFrame.shape[:2])
 		if guiCommands['previewRaw']==True: 
 			cv2.imshow('All',grabbedFrame)
-			Live.showRed()
-			Live.showGreen()
-			Live.showBlue()
+			#Live.showRed()
+			#Live.showGreen()
+			#Live.showBlue()
 		else:
 			cv2.destroyAllWindows()
 		if cv2.waitKey(1) & 0xFF == ord('q'):
