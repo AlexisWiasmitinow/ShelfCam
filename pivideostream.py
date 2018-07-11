@@ -10,7 +10,7 @@ class PiVideoStream:
 		self.camera = PiCamera()
 		#resolution=(1296,736)
 		self.camera.resolution = resolution
-		self.camera.framerate = 30 
+		self.camera.framerate = 5 
 		#self.camera.framerate = 49
 		self.camera.video_stabilization=False
 		self.camera.vflip = True

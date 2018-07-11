@@ -1,5 +1,5 @@
 
-(Test:200): Gtk-WARNING **: cannot open display: 
+(Test:201): Gtk-WARNING **: cannot open display: 
 ('resolution: ', PiResolution(width=1920, height=1088))
 Exception in thread Thread-2:
 Traceback (most recent call last):

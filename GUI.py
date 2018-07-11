@@ -1,5 +1,6 @@
 # coding: utf-8
 from Tkinter import *
+from loadsettings import *
 #from ActorsControl import *
 from threading import Thread
 #from PIL import Image, ImageTk
@@ -14,7 +15,7 @@ guiCommands['angle']=0
 guiCommands['autoServo']=False
 guiCommands['autoRoll']=False
 guiCommands['autoTurn']=False
-guiCommands['previewRaw']=True
+guiCommands['previewRaw']=False
 guiCommands['previewComputed']=False
 guiCommands['runVideo']=True
 guiCommands['emptyCommandQueue']=False
@@ -32,92 +33,90 @@ class Window(Frame):
 		
 	#Creation of init_window
 	def init_window(self):   
-			self.master.title("Roboter Bedienung")
+			self.master.title("ShelfCam Configuration")
 			# allowing the widget to take the full space of the root window
 			self.pack(fill=BOTH, expand=1)
 			slider_Length=200
 			SetRow=0
 			#test=Label(self, text="First")
 			#test.grid(row=0)
-			self.forwardDist=StringVar()
-			Entry(self,textvariable=self.forwardDist,width=4).grid(row=SetRow, column=2)
-			self.forwardDist.set("1000")
-			Button(self, text="Vor", command=lambda: self.moveTo("forward")).grid(row=SetRow, column=3)
-			Button(self, text="Hoch", command=lambda: self.lookTo(2)).grid(row=SetRow, column=6)
+			#self.forwardDist=StringVar()
+			#Entry(self,textvariable=self.forwardDist,width=4).grid(row=SetRow, column=2)
+			#self.forwardDist.set("1000")
+			#Button(self, text="Vor", command=lambda: self.moveTo("forward")).grid(row=SetRow, column=3)
+			#Button(self, text="Hoch", command=lambda: self.lookTo(2)).grid(row=SetRow, column=6)
 			
-			self.slider_target = Scale(self, orient='horizontal', from_=0, to=500, length=slider_Length, command=self.update)
-			self.slider_target.grid(row=SetRow, column=7, columnspan=2)
-			self.slider_target.set(50)
-			self.targetLabel=Label(self, text="Ziel")
-			self.targetLabel.grid(row=SetRow, column=9)
+			self.croptop = Scale(self, orient='horizontal', from_=0, to=500, length=slider_Length, command=self.update)
+			self.croptop.grid(row=SetRow, column=7, columnspan=2)
+			self.croptop.set(0)
+			self.croptopLabel=Label(self, text="Zuschnitt Oben")
+			self.croptopLabel.grid(row=SetRow, column=9)
 			SetRow+=1
-			Button(self, text="V 300", command=lambda: self.moveTo("mf300")).grid(row=SetRow, column=3)
-			SetRow+=1
-			Button(self, text="V 50", command=lambda: self.moveTo("mf50")).grid(row=SetRow, column=3)
-			self.slider_threshold = Scale(self, orient='horizontal', from_=0, to=500, length=slider_Length, command=self.update)
-			self.slider_threshold.grid(row=SetRow, column=7, columnspan=2)
-			self.slider_threshold.set(50)
-			self.leftAngle=StringVar()
-			Entry(self,textvariable=self.leftAngle,width=4).grid(row=SetRow, column=0)
-			self.leftAngle.set("180")
-			self.rightAngle=StringVar()
-			Entry(self,textvariable=self.rightAngle,width=4).grid(row=SetRow, column=6)
-			self.rightAngle.set("180")
-			self.threshLabel=Label(self, text="Licht")
-			self.threshLabel.grid(row=SetRow, column=9)
+			#Button(self, text="V 300", command=lambda: self.moveTo("mf300")).grid(row=SetRow, column=3)
+			#SetRow+=1
+			#Button(self, text="V 50", command=lambda: self.moveTo("mf50")).grid(row=SetRow, column=3)
+			self.cropbottom = Scale(self, orient='horizontal', from_=0, to=500, length=slider_Length, command=self.update)
+			self.cropbottom.grid(row=SetRow, column=7, columnspan=2)
+			self.cropbottom.set(0)
+			#self.leftAngle=StringVar()
+			#Entry(self,textvariable=self.leftAngle,width=4).grid(row=SetRow, column=0)
+			#self.leftAngle.set("180")
+			#self.rightAngle=StringVar()
+			#Entry(self,textvariable=self.rightAngle,width=4).grid(row=SetRow, column=6)
+			#self.rightAngle.set("180")
+			self.cropbottomLabel=Label(self, text="Zuschnitt Unten")
+			self.cropbottomLabel.grid(row=SetRow, column=9)
 			SetRow+=1
 			SetCol=0
-			Button(self, text="Links", command=lambda: self.moveTo("left")).grid(row=SetRow, column=SetCol)
-			SetCol+=1
-			Button(self, text="L 90°", command=lambda: self.moveTo("tl90")).grid(row=SetRow, column=SetCol)
-			SetCol+=1
-			Button(self, text="L 10°", command=lambda: self.moveTo("tl10")).grid(row=SetRow, column=SetCol)
-			SetCol+=1
-			Button(self, text="Stop", command=lambda: self.moveTo("stop")).grid(row=SetRow, column=SetCol)
-			SetCol+=1
-			Button(self, text="R 10°", command=lambda: self.moveTo("tr10")).grid(row=SetRow, column=SetCol)
-			SetCol+=1
-			Button(self, text="R 90°", command=lambda: self.moveTo("tr90")).grid(row=SetRow, column=SetCol)
-			SetCol+=1
-			Button(self, text="Rechts", command=lambda: self.moveTo("right")).grid(row=SetRow, column=SetCol)
-			
+			#Button(self, text="Links", command=lambda: self.moveTo("left")).grid(row=SetRow, column=SetCol)
+			#SetCol+=1
+			#Button(self, text="L 90°", command=lambda: self.moveTo("tl90")).grid(row=SetRow, column=SetCol)
+			#SetCol+=1
+			#Button(self, text="L 10°", command=lambda: self.moveTo("tl10")).grid(row=SetRow, column=SetCol)
+			#SetCol+=1
+			#Button(self, text="Stop", command=lambda: self.moveTo("stop")).grid(row=SetRow, column=SetCol)
+			#SetCol+=1
+			#Button(self, text="R 10°", command=lambda: self.moveTo("tr10")).grid(row=SetRow, column=SetCol)
+			#SetCol+=1
+			#Button(self, text="R 90°", command=lambda: self.moveTo("tr90")).grid(row=SetRow, column=SetCol)
+			#SetCol+=1
+			#Button(self, text="Rechts", command=lambda: self.moveTo("right")).grid(row=SetRow, column=SetCol)
+			#SetRow+=1
+			#Button(self, text="Z 50", command=lambda: self.moveTo("mb50")).grid(row=SetRow, column=3)
+			self.cropleft = Scale(self, orient='horizontal', from_=0, to=100, length=slider_Length, command=self.update)
+			self.cropleft.grid(row=SetRow, column=7, columnspan=2)
+			self.cropleft.set(0)
+			self.cropleftLabel=Label(self, text="Zuschnitt Links")
+			self.cropleftLabel.grid(row=SetRow, column=9)
 			SetRow+=1
-			Button(self, text="Z 50", command=lambda: self.moveTo("mb50")).grid(row=SetRow, column=3)
-			self.slider_rotation = Scale(self, orient='horizontal', from_=0, to=100, length=slider_Length, command=self.update)
-			self.slider_rotation.grid(row=SetRow, column=7, columnspan=2)
-			self.slider_rotation.set(30)
-			self.rotationLabel=Label(self, text="Drehung")
-			self.rotationLabel.grid(row=SetRow, column=9)
-			SetRow+=1
-			Button(self, text="Z 300", command=lambda: self.moveTo("mb300")).grid(row=SetRow, column=3)
-			
-			SetRow+=1
-			self.lightText=StringVar()
-			Button(self, textvariable=self.lightText, command=self.lightSwitch).grid(row=SetRow, column=0)
-			self.lightText.set("Licht An")
-			self.backwardDist=StringVar()
-			Entry(self,textvariable=self.backwardDist,width=4).grid(row=SetRow, column=2)
-			self.backwardDist.set("1000")
-			Button(self, text="Rueckwaerz", command=lambda: self.moveTo("backward")).grid(row=SetRow, column=3)
-			Button(self, text="Runter", command=lambda: self.lookTo(-2)).grid(row=SetRow, column=6)
-			self.slider_drive = Scale(self, orient='horizontal', from_=0, to=100, length=slider_Length, command=self.update)
-			self.slider_drive.grid(row=SetRow, column=7, columnspan=2)
-			self.slider_drive.set(50)
-			self.driveLabel=Label(self, text="Fahrt")
-			self.driveLabel.grid(row=SetRow, column=9)
+			#Button(self, text="Z 300", command=lambda: self.moveTo("mb300")).grid(row=SetRow, column=3)
+			#SetRow+=1
+			#self.lightText=StringVar()
+			#Button(self, textvariable=self.lightText, command=self.lightSwitch).grid(row=SetRow, column=0)
+			#self.lightText.set("Licht An")
+			#self.backwardDist=StringVar()
+			#Entry(self,textvariable=self.backwardDist,width=4).grid(row=SetRow, column=2)
+			#self.backwardDist.set("1000")
+			#Button(self, text="Rueckwaerz", command=lambda: self.moveTo("backward")).grid(row=SetRow, column=3)
+			#Button(self, text="Runter", command=lambda: self.lookTo(-2)).grid(row=SetRow, column=6)
+			self.cropright = Scale(self, orient='horizontal', from_=0, to=100, length=slider_Length, command=self.update)
+			self.cropright.grid(row=SetRow, column=7, columnspan=2)
+			self.cropright.set(0)
+			self.croprightLabel=Label(self, text="Zuschnitt Rechts")
+			self.croprightLabel.grid(row=SetRow, column=9)
 			SetRow+=1
 			SetCol=0
-			self.autoServoText=StringVar()
-			Button(self, textvariable=self.autoServoText, command=self.autoServoSwitch).grid(row=SetRow, column=SetCol,columnspan=2)
-			self.autoServoText.set("Schauen")
+			#self.autoServoText=StringVar()
+			#Button(self, textvariable=self.autoServoText, command=self.autoServoSwitch).grid(row=SetRow, column=SetCol,columnspan=2)
+			#self.autoServoText.set("Schauen")
 			SetCol+=2
-			self.autoRollText=StringVar()
-			Button(self, textvariable=self.autoRollText, command=self.autoRollSwitch).grid(row=SetRow, column=SetCol,columnspan=2)
-			self.autoRollText.set("Rollen")
+			#self.autoRollText=StringVar()
+			#Button(self, textvariable=self.autoRollText, command=self.autoRollSwitch).grid(row=SetRow, column=SetCol,columnspan=2)
+			#self.autoRollText.set("Rollen")
 			SetCol+=2
-			self.autoTurnText=StringVar()
-			Button(self, textvariable=self.autoTurnText, command=self.autoTurnSwitch).grid(row=SetRow, column=SetCol,columnspan=2)
-			self.autoTurnText.set("Drehen")
+			self.SaveText=StringVar()
+			Button(self, textvariable=self.SaveText, command=self.saveSettings).grid(row=SetRow, column=SetCol,columnspan=2)
+			self.SaveText.set("Speichern")
 			SetCol+=2
 			self.previewText=StringVar()
 			Button(self, textvariable=self.previewText, command=self.previewSwitch).grid(row=SetRow, column=SetCol,columnspan=2)
@@ -126,7 +125,8 @@ class Window(Frame):
 			#SetRow+=1
 			#SetCol=0
 			Button(self, text="Beenden", command=self.client_exit).grid(row=SetRow, column=SetCol,columnspan=2)
-			
+	def saveSettings(self):
+		save_settings(guiCommands);
 			
 	def previewSwitch(self):
 		guiCommands['previewRaw']= not guiCommands['previewRaw']
@@ -135,7 +135,7 @@ class Window(Frame):
 			self.previewText.set("Vorschau Aus")
 		else:
 			self.previewText.set("Vorschau An")
-			
+	'''		
 	def lightSwitch(self):
 		guiCommands['light']= not guiCommands['light']
 		print("light Status",guiCommands['light'])
@@ -169,7 +169,7 @@ class Window(Frame):
 		else:
 			self.autoTurnText.set("Drehen")
 			guiCommands['emptyCommandQueue']=True
-	
+	'''
 	def lookTo(self,command):
 		print("before look to: ",guiCommands['angle'])
 		guiCommands['angle']+=command
