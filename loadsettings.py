@@ -18,6 +18,7 @@ guiCommands['cropleft']=0
 guiCommands['cropright']=0
 guiCommands['croptop']=0
 guiCommands['cropbottom']=0
+guiCommands['threshold']=0
  
 def preload_settings():
     f = open(str(GeneralSettings['InstallPath'])+'settings.txt', 'r')

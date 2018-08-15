@@ -68,14 +68,30 @@ class ContourOperations:
 		if self.dimX>0:
 			self.blueImage,self.greenImage,self.redImage = cv2.split(frame)
 			
-	def showRed(self):
-		cv2.imshow('Red',self.redImage)
+	def computeRedMinusGB(self):
+		if self.dimX>0:
+			return self.redImage-self.greenImage-self.blueImage
 		
-	def showGreen(self):
-		cv2.imshow('Green',self.greenImage)
+	def computeThreshold(self, frame, threshold):
+		blur = cv2.GaussianBlur(frame,(5,5),0)
+		ret3,th3 = cv2.threshold(blur,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+		self.dimX , self.dimY = frame.shape[:2]
+		if self.dimX>0:
+			#self.grayImage = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+			ret, thresh = cv2.threshold(frame,threshold,255,0)
+			return thresh
+			
+	def showRed(self, show):
+		if show==True: cv2.imshow('Red',self.redImage)
+		return self.redImage
 		
-	def showBlue(self):
-		cv2.imshow('Blue',self.blueImage)
+	def showGreen(self, show):
+		if show==True: cv2.imshow('Green',self.greenImage)
+		return self.greenImage
+		
+	def showBlue(self, show):
+		if show==True: cv2.imshow('Blue',self.blueImage)
+		return self.blueImage
 	
 	def compute_image(self,frame):
 		self.dimX , self.dimY = frame.shape[:2]
@@ -122,6 +138,18 @@ class ContourOperations:
 				return False
 		else:
 			return False
+			
+	def showPixelValue(self, frame, x, y, name):
+		dimX , dimY = frame.shape[:2]
+		if dimX>0:
+			colorValue=frame[y][x]
+			drawFrame=cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
+			box = [[x,y],[x+1,y+1]] 
+			box = np.array(box, dtype="int")
+			cv2.drawContours(drawFrame, [box], -1, (255, 0, 255), 2)
+			cv2.putText(drawFrame," Value: "+str(colorValue),(10,30),cv2.FONT_HERSHEY_SIMPLEX,0.45, (255, 0, 255), 2)
+			cv2.imshow(name,drawFrame)
+		
 			
 	def save_raw_image(self,saveSetting,objectNo, imageNo):
 		now=format(time.time(),'.2f')

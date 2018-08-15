@@ -31,8 +31,13 @@ class Window(Frame):
 			#self.forwardDist.set("1000")
 			#Button(self, text="Vor", command=lambda: self.moveTo("forward")).grid(row=SetRow, column=3)
 			#Button(self, text="Hoch", command=lambda: self.lookTo(2)).grid(row=SetRow, column=6)
+			self.threshold = Scale(self, orient='horizontal', from_=0, to=255, length=slider_Length, command=self.update)
+			self.threshold.grid(row=SetRow, column=3, columnspan=2)
+			self.threshold.set(0)
+			self.thresholdLabel=Label(self, text="Schwellwert")
+			self.thresholdLabel.grid(row=SetRow, column=6)
 			
-			self.croptop = Scale(self, orient='horizontal', from_=0, to=100, length=slider_Length, command=self.update)
+			self.croptop = Scale(self, orient='horizontal', from_=0, to=95, length=slider_Length, command=self.update)
 			self.croptop.grid(row=SetRow, column=7, columnspan=2)
 			self.croptop.set(0)
 			self.croptopLabel=Label(self, text="Zuschnitt Oben")
@@ -41,7 +46,9 @@ class Window(Frame):
 			#Button(self, text="V 300", command=lambda: self.moveTo("mf300")).grid(row=SetRow, column=3)
 			#SetRow+=1
 			#Button(self, text="V 50", command=lambda: self.moveTo("mf50")).grid(row=SetRow, column=3)
-			self.cropbottom = Scale(self, orient='horizontal', from_=0, to=100, length=slider_Length, command=self.update)
+			
+			
+			self.cropbottom = Scale(self, orient='horizontal', from_=0, to=95, length=slider_Length, command=self.update)
 			self.cropbottom.grid(row=SetRow, column=7, columnspan=2)
 			self.cropbottom.set(0)
 			#self.leftAngle=StringVar()
@@ -69,7 +76,7 @@ class Window(Frame):
 			#Button(self, text="Rechts", command=lambda: self.moveTo("right")).grid(row=SetRow, column=SetCol)
 			#SetRow+=1
 			#Button(self, text="Z 50", command=lambda: self.moveTo("mb50")).grid(row=SetRow, column=3)
-			self.cropleft = Scale(self, orient='horizontal', from_=0, to=100, length=slider_Length, command=self.update)
+			self.cropleft = Scale(self, orient='horizontal', from_=0, to=95, length=slider_Length, command=self.update)
 			self.cropleft.grid(row=SetRow, column=7, columnspan=2)
 			self.cropleft.set(0)
 			self.cropleftLabel=Label(self, text="Zuschnitt Links")
@@ -85,7 +92,7 @@ class Window(Frame):
 			#self.backwardDist.set("1000")
 			#Button(self, text="Rueckwaerz", command=lambda: self.moveTo("backward")).grid(row=SetRow, column=3)
 			#Button(self, text="Runter", command=lambda: self.lookTo(-2)).grid(row=SetRow, column=6)
-			self.cropright = Scale(self, orient='horizontal', from_=0, to=100, length=slider_Length, command=self.update)
+			self.cropright = Scale(self, orient='horizontal', from_=0, to=95, length=slider_Length, command=self.update)
 			self.cropright.grid(row=SetRow, column=7, columnspan=2)
 			self.cropright.set(0)
 			self.croprightLabel=Label(self, text="Zuschnitt Rechts")
@@ -119,6 +126,7 @@ class Window(Frame):
 		self.cropbottom.set(guiCommands['cropbottom'])
 		self.cropleft.set(guiCommands['cropleft'])
 		self.cropright.set(guiCommands['cropright'])
+		self.threshold.set(guiCommands['threshold'])
 			
 	def previewSwitch(self):
 		guiCommands['previewRaw']= not guiCommands['previewRaw']
@@ -175,6 +183,7 @@ class Window(Frame):
 		guiCommands['cropbottom']=self.cropbottom.get()
 		guiCommands['cropleft']=self.cropleft.get()
 		guiCommands['cropright']=self.cropright.get()
+		guiCommands['threshold']=self.threshold.get()
 
 	def client_exit(self):
 		guiCommands['runVideo']=False
