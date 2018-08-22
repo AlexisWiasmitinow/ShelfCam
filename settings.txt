@@ -1,1 +1,1 @@
-{'cropleft': 25, 'emptyCommandQueue': False, 'previewRaw': True, 'cropright': 51, 'previewComputed': False, 'threshold': 45, 'croptop': 53, 'runVideo': True, 'cropbottom': 8}
+{'cropleft': 25, 'emptyCommandQueue': False, 'previewRaw': True, 'cropright': 50, 'takePic': False, 'previewComputed': False, 'threshold': 53, 'croptop': 53, 'runVideo': True, 'cropbottom': 8}

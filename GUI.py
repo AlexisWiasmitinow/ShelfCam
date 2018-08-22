@@ -99,9 +99,9 @@ class Window(Frame):
 			self.croprightLabel.grid(row=SetRow, column=9)
 			SetRow+=1
 			SetCol=0
-			#self.autoServoText=StringVar()
-			#Button(self, textvariable=self.autoServoText, command=self.autoServoSwitch).grid(row=SetRow, column=SetCol,columnspan=2)
-			#self.autoServoText.set("Schauen")
+			self.takePicText=StringVar()
+			Button(self, textvariable=self.takePicText, command=self.takePic).grid(row=SetRow, column=SetCol,columnspan=2)
+			self.takePicText.set("Bild Speichern")
 			SetCol+=2
 			#self.autoRollText=StringVar()
 			#Button(self, textvariable=self.autoRollText, command=self.autoRollSwitch).grid(row=SetRow, column=SetCol,columnspan=2)
@@ -109,7 +109,7 @@ class Window(Frame):
 			SetCol+=2
 			self.SaveText=StringVar()
 			Button(self, textvariable=self.SaveText, command=self.saveSettings).grid(row=SetRow, column=SetCol,columnspan=2)
-			self.SaveText.set("Speichern")
+			self.SaveText.set("Einstellungen Speichern")
 			SetCol+=2
 			self.previewText=StringVar()
 			Button(self, textvariable=self.previewText, command=self.previewSwitch).grid(row=SetRow, column=SetCol,columnspan=2)
@@ -135,6 +135,9 @@ class Window(Frame):
 			self.previewText.set("Vorschau Aus")
 		else:
 			self.previewText.set("Vorschau An")
+			
+	def takePic(self):
+		guiCommands['takePic'] = True
 	'''		
 	def lightSwitch(self):
 		guiCommands['light']= not guiCommands['light']

@@ -32,9 +32,11 @@ class ContourOperations:
 	def set_contour_no(self, contour_no):
 		self.contour_no=contour_no
 	
-	def list_contours(self):
+	def list_contours(self, frame):
+		blur = cv2.GaussianBlur(frame,(5,5),0)
+		self.dimX , self.dimY = frame.shape[:2]
 		if self.dimX>0:
-			(cnts, _) = cv2.findContours(self.image, cv2.RETR_EXTERNAL, 2)
+			(cnts, _) = cv2.findContours(blur, cv2.RETR_EXTERNAL, 2)
 			#(cnts, _) = cv2.findContours(self.image, cv2.RETR_TREE, 1)
 			#CHAIN_APPROX_SIMPLE CV_CHAIN_APPROX_TC89_L1,CV_CHAIN_APPROX_TC89_KCOS
 			#cv::CHAIN_APPROX_NONE = 1,   cv::CHAIN_APPROX_SIMPLE = 2,  cv::CHAIN_APPROX_TC89_L1 = 3,  cv::CHAIN_APPROX_TC89_KCOS = 4
@@ -42,10 +44,10 @@ class ContourOperations:
 			cnts = sorted(cnts, key = cv2.contourArea, reverse = True)[:10]
 			self.contoursorted=cnts
 		
-	def get_selected_contour(self):
-		self.list_contours()
+	def get_selected_contour(self, frame, contour_no):
+		self.list_contours(frame)
 		if len(self.contoursorted)>1:
-			self.contour_to_show=self.contoursorted[self.contour_no]
+			self.contour_to_show=self.contoursorted[contour_no]
 			#del contour_to_show[0]
 			#print("showcontour")
 			return self.contour_to_show
@@ -68,13 +70,17 @@ class ContourOperations:
 		if self.dimX>0:
 			self.blueImage,self.greenImage,self.redImage = cv2.split(frame)
 			
-	def computeRedMinusGB(self):
+	def computeRedMinusGB(self, frame):
+		self.dimX , self.dimY = frame.shape[:2]
 		if self.dimX>0:
-			return self.redImage-self.greenImage-self.blueImage
+			blue, green, red = cv2.split(frame)
+			out_frame=cv2.subtract(red,blue)
+			out_frame=cv2.subtract(out_frame,green)
+			return out_frame
 		
 	def computeThreshold(self, frame, threshold):
-		blur = cv2.GaussianBlur(frame,(5,5),0)
-		ret3,th3 = cv2.threshold(blur,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+		#blur = cv2.GaussianBlur(frame,(5,5),0)
+		#ret3,th3 = cv2.threshold(blur,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 		self.dimX , self.dimY = frame.shape[:2]
 		if self.dimX>0:
 			#self.grayImage = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -119,25 +125,7 @@ class ContourOperations:
 			cv2.destroyWindow('Grayscale')
 		elif show_computed==False:
 			cv2.destroyWindow('Computed')
-	
-	def compute_cropped_image(self, x1, x2):
-		#self.dimXcropped=image.shape
-		self.imageCropped=self.image[:,int(x1):int(x2)]
-		#cv2.imshow('TestCropped',self.imageCropped)
-	
-	def checkIfNext(self,lastTakeNext) :
-		sliceWidth=10
-		if self.dimX>0:
-			currentSlice=self.image[0:self.dimX, (self.dimY-sliceWidth):self.dimY]
-			sumCurrentSlice=np.sum(currentSlice)
-			if sumCurrentSlice < self.object_threshold : #to test
-				#print("True! delta: ",sumCurrentSlice - self.object_threshold)
-				return True
-			else:
-				#print("False! delta: ",sumCurrentSlice - self.object_threshold)
-				return False
-		else:
-			return False
+
 			
 	def showPixelValue(self, frame, x, y, name):
 		dimX , dimY = frame.shape[:2]
@@ -260,7 +248,20 @@ class ContourOperations:
 			#print("bad box! Width: "+str(box_width)+" length: "+str(box_length))
 			self.SizeStatus="BAD"
 			return False
-			
+
+	def showContour(self, frame, contour):
+		if contour is not None:
+			boxrect = cv2.minAreaRect(contour)
+			box = cv2.cv.BoxPoints(boxrect) 
+			box = np.array(box, dtype="int")
+			#print("box: ",boxrect)
+			box_dimensions=(round(boxrect[1][0],2),round(boxrect[1][1],2),round(boxrect[2],2))
+			cv2.putText(frame," Box Dim: "+str(box_dimensions),(10,10),cv2.FONT_HERSHEY_SIMPLEX,0.45, (255, 255, 255), 2)
+			cv2.drawContours(frame, [box], -1, ( 0,255, 0), 2)
+			cv2.drawContours(frame, contour, -1, (255, 0, 0), 2)
+			cv2.imshow('Contour',frame)
+			return frame
+
 	def check_modular_boxes(self):
 		if len(self.contour_to_show) <= 0:
 			self.OrientationStatus="BAD"

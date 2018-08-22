@@ -51,23 +51,36 @@ def main(argv):
 		#print("set guiCommands nogui:",guiCommands)
 		guiCommands['previewRaw']=False
 	runVideo=True
+	imageCounter=0
 	#print("picSavePath: ",picSavePath)
 	while (runVideo==True):
 		#print("mainloop")
 		runVideo=guiCommands['runVideo']
 		grabbedFrame = vs.readCropped(guiCommands['cropleft'],guiCommands['croptop'],guiCommands['cropright'],guiCommands['cropbottom'])
-		np.asarray(grabbedFrame)
+		if guiCommands['takePic']==True:
+			filename="images/image_"+str(imageCounter).zfill(3)+".png"
+			cv2.imwrite(filename, grabbedFrame)
+			imageCounter+=1
+			guiCommands['takePic']=False
 		Live=ContourOperations()
-		Live.split_colors(grabbedFrame)
-		
-		#redOnly=Live.computeRedMinusGB()
-		#Live.computeThreshold(redOnly, guiCommands['threshold'])
+		blue, green, red = cv2.split(grabbedFrame)
+		background=cv2.imread("background/image_000.png", -1)
+		bluebg, greenbg, redbg = cv2.split(grabbedFrame)
+		redOnly=Live.computeRedMinusGB(grabbedFrame)
+		red_Threshold=Live.computeThreshold(redOnly, guiCommands['threshold'])
+		redThresContour=red_Threshold.copy()
+		contour_ext=Live.get_selected_contour(redThresContour, 0)
 		#frame = vs.read()
 		#print("threshold:",guiCommands['threshold'])
 		#print("Type grabbedFrame",grabbedFrame.name)
+		
 		if guiCommands['previewRaw']==True: 
 			cv2.imshow('All',grabbedFrame)
+			#cv2.imshow('All-BG',cv2.subtract(grabbedFrame,background))
+			Live.showContour(grabbedFrame, contour_ext)
+			cv2.imshow('red',red_Threshold)
 			#cv2.imshow('RedOnly',redOnly)
+			'''
 			red=Live.showRed(False)
 			#print("Type grabbedFrame",grabbedFrame.dtype())
 			green=Live.showGreen(False)
@@ -82,13 +95,15 @@ def main(argv):
 			red[95][60]=red[95][60]-65
 			Live.showPixelValue(red,60,95, 'r new')
 			Live.showPixelValue(red-green,60,95, 'r-g new')
-			
+			'''
 		else:
 			cv2.destroyAllWindows()
 		if cv2.waitKey(1) & 0xFF == ord('q'):
 			runVideo=False
 			break
-		#time.sleep(0.1)
+		#time.sleep(5)
+		#time.sleep(1)
+		#print("loop")
 		#runVideo=False
 		
 if __name__ == "__main__":
