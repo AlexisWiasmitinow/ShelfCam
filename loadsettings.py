@@ -1,10 +1,12 @@
+import os
+home=os.getenv("HOME")
 GeneralSettings={}
 GeneralSettings['RunVideo']=True
 GeneralSettings['StatusMessage']="initializing..."
 GeneralSettings['FrameRate']=30
 GeneralSettings['TranslationNo']=0
 GeneralSettings['FlushTime']=0
-GeneralSettings['InstallPath']='/home/pi/ShelfCam/'
+GeneralSettings['InstallPath']=home+'/ShelfCam/'
 #GeneralSettings['ControlImagePath']='/dev/null'
  
  

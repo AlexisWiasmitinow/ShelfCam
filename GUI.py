@@ -32,10 +32,10 @@ class Window(Frame):
 			#Button(self, text="Vor", command=lambda: self.moveTo("forward")).grid(row=SetRow, column=3)
 			#Button(self, text="Hoch", command=lambda: self.lookTo(2)).grid(row=SetRow, column=6)
 			self.threshold = Scale(self, orient='horizontal', from_=0, to=255, length=slider_Length, command=self.update)
-			self.threshold.grid(row=SetRow, column=3, columnspan=2)
+			self.threshold.grid(row=SetRow, column=0, columnspan=2)
 			self.threshold.set(0)
 			self.thresholdLabel=Label(self, text="Schwellwert")
-			self.thresholdLabel.grid(row=SetRow, column=6)
+			self.thresholdLabel.grid(row=SetRow, column=2)
 			
 			self.croptop = Scale(self, orient='horizontal', from_=0, to=95, length=slider_Length, command=self.update)
 			self.croptop.grid(row=SetRow, column=7, columnspan=2)
@@ -43,39 +43,24 @@ class Window(Frame):
 			self.croptopLabel=Label(self, text="Zuschnitt Oben")
 			self.croptopLabel.grid(row=SetRow, column=9)
 			SetRow+=1
-			#Button(self, text="V 300", command=lambda: self.moveTo("mf300")).grid(row=SetRow, column=3)
-			#SetRow+=1
-			#Button(self, text="V 50", command=lambda: self.moveTo("mf50")).grid(row=SetRow, column=3)
 			
-			
+			self.lowerhue = Scale(self, orient='horizontal', from_=0, to=95, length=slider_Length, command=self.update)
+			self.lowerhue.grid(row=SetRow, column=3, columnspan=2)
+			self.lowerhue.set(0)
+			self.lowerhueLabel=Label(self, text="Hue Limit Unten")
+			self.lowerhueLabel.grid(row=SetRow, column=6)
 			self.cropbottom = Scale(self, orient='horizontal', from_=0, to=95, length=slider_Length, command=self.update)
 			self.cropbottom.grid(row=SetRow, column=7, columnspan=2)
 			self.cropbottom.set(0)
-			#self.leftAngle=StringVar()
-			#Entry(self,textvariable=self.leftAngle,width=4).grid(row=SetRow, column=0)
-			#self.leftAngle.set("180")
-			#self.rightAngle=StringVar()
-			#Entry(self,textvariable=self.rightAngle,width=4).grid(row=SetRow, column=6)
-			#self.rightAngle.set("180")
 			self.cropbottomLabel=Label(self, text="Zuschnitt Unten")
 			self.cropbottomLabel.grid(row=SetRow, column=9)
 			SetRow+=1
 			SetCol=0
-			#Button(self, text="Links", command=lambda: self.moveTo("left")).grid(row=SetRow, column=SetCol)
-			#SetCol+=1
-			#Button(self, text="L 90°", command=lambda: self.moveTo("tl90")).grid(row=SetRow, column=SetCol)
-			#SetCol+=1
-			#Button(self, text="L 10°", command=lambda: self.moveTo("tl10")).grid(row=SetRow, column=SetCol)
-			#SetCol+=1
-			#Button(self, text="Stop", command=lambda: self.moveTo("stop")).grid(row=SetRow, column=SetCol)
-			#SetCol+=1
-			#Button(self, text="R 10°", command=lambda: self.moveTo("tr10")).grid(row=SetRow, column=SetCol)
-			#SetCol+=1
-			#Button(self, text="R 90°", command=lambda: self.moveTo("tr90")).grid(row=SetRow, column=SetCol)
-			#SetCol+=1
-			#Button(self, text="Rechts", command=lambda: self.moveTo("right")).grid(row=SetRow, column=SetCol)
-			#SetRow+=1
-			#Button(self, text="Z 50", command=lambda: self.moveTo("mb50")).grid(row=SetRow, column=3)
+			self.upperhue = Scale(self, orient='horizontal', from_=0, to=95, length=slider_Length, command=self.update)
+			self.upperhue.grid(row=SetRow, column=3, columnspan=2)
+			self.upperhue.set(0)
+			self.upperhueLabel=Label(self, text="Hue Limit Oben")
+			self.upperhueLabel.grid(row=SetRow, column=6)
 			self.cropleft = Scale(self, orient='horizontal', from_=0, to=95, length=slider_Length, command=self.update)
 			self.cropleft.grid(row=SetRow, column=7, columnspan=2)
 			self.cropleft.set(0)
@@ -92,6 +77,17 @@ class Window(Frame):
 			#self.backwardDist.set("1000")
 			#Button(self, text="Rueckwaerz", command=lambda: self.moveTo("backward")).grid(row=SetRow, column=3)
 			#Button(self, text="Runter", command=lambda: self.lookTo(-2)).grid(row=SetRow, column=6)
+			self.lowerval = Scale(self, orient='horizontal', from_=0, to=95, length=slider_Length, command=self.update)
+			self.lowerval.grid(row=SetRow, column=3, columnspan=2)
+			self.lowerval.set(0)
+			self.lowervalLabel=Label(self, text="Val Limit Unten")
+			self.lowervalLabel.grid(row=SetRow, column=6)
+			SetRow+=1
+			self.upperval = Scale(self, orient='horizontal', from_=0, to=95, length=slider_Length, command=self.update)
+			self.upperval.grid(row=SetRow, column=3, columnspan=2)
+			self.upperval.set(0)
+			self.uppervalLabel=Label(self, text="Val Limit Oben")
+			self.uppervalLabel.grid(row=SetRow, column=6)
 			self.cropright = Scale(self, orient='horizontal', from_=0, to=95, length=slider_Length, command=self.update)
 			self.cropright.grid(row=SetRow, column=7, columnspan=2)
 			self.cropright.set(0)
