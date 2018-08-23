@@ -1,1 +1,1 @@
-{'cropleft': 25, 'emptyCommandQueue': False, 'previewRaw': True, 'cropright': 50, 'takePic': False, 'previewComputed': False, 'threshold': 53, 'croptop': 53, 'runVideo': True, 'cropbottom': 8}
+{'cropleft': 25, 'emptyCommandQueue': False, 'previewRaw': True, 'cropright': 50, 'upperhue': 9, 'uppersat': 255, 'upperval': 255, 'lowerval': 0, 'lowerhue': 0, 'takePic': False, 'previewComputed': False, 'threshold': 53, 'croptop': 53, 'runVideo': True, 'cropbottom': 8, 'lowersat': 241}

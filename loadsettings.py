@@ -21,6 +21,12 @@ guiCommands['cropright']=0
 guiCommands['croptop']=0
 guiCommands['cropbottom']=0
 guiCommands['threshold']=0
+guiCommands['upperhue']=0
+guiCommands['lowerhue']=0
+guiCommands['upperval']=0
+guiCommands['lowerval']=0
+guiCommands['uppersat']=0
+guiCommands['lowersat']=0
 guiCommands['takePic']=False
  
 def preload_settings():

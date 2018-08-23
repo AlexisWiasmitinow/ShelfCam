@@ -22,9 +22,9 @@ class PiVideoStream:
 		#self.camera.iso=500
 		# initialize the frame and the variable used to indicate
 		# if the thread should be stopped
-		self.camera.awb_mode="incandescent"
+		#self.camera.awb_mode="incandescent"
 		print("resolution: ",self.camera.resolution)
-		print("awb: ",self.camera.awb_mode)
+		#print("awb: ",self.camera.awb_mode)
 		self.frame = None
 		self.stopped = False
 
