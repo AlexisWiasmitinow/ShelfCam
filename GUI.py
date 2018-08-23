@@ -140,31 +140,7 @@ class Window(Frame):
 	def takePic(self):
 		guiCommands['takePic'] = True
 	'''		
-	def lightSwitch(self):
-		guiCommands['light']= not guiCommands['light']
-		print("light Status",guiCommands['light'])
-		if guiCommands['light']==True:
-			lightOn()
-			self.lightText.set("Licht Aus")
-		else:
-			lightOff()
-			self.lightText.set("Licht An")
-	def autoServoSwitch(self):
-		guiCommands['autoServo']= not guiCommands['autoServo']
-		print("autoServo Status",guiCommands['autoServo'])
-		if guiCommands['autoServo']==True:
-			self.autoServoText.set("Schau Aus")
-		else:
-			self.autoServoText.set("Schauen")
-			
-	def autoRollSwitch(self):
-		guiCommands['autoRoll']= not guiCommands['autoRoll']
-		print("autoRoll Status",guiCommands['autoRoll'])
-		if guiCommands['autoRoll']==True:
-			self.autoRollText.set("Roll Aus")
-		else:
-			self.autoRollText.set("Rollen")
-			guiCommands['emptyCommandQueue']=True
+	
 	def autoTurnSwitch(self):
 		guiCommands['autoTurn']= not guiCommands['autoTurn']
 		print("autoTurn Status",guiCommands['autoTurn'])
