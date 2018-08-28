@@ -54,9 +54,9 @@ def main(argv):
 	if simulate==0:
 		import RPi.GPIO as GPIO
 		from pivideostream import PiVideoStream
-		vs = PiVideoStream((1296, 736)).start()
-		#vs = PiVideoStream((1920, 1088)).start()
-		time.sleep(1)
+		#vs = PiVideoStream((1296, 736)).start()
+		vs = PiVideoStream((1920, 1080)).start()
+		time.sleep(2)
 	runVideo=True
 	imageCounter=0
 	#print("picSavePath: ",picSavePath)
