@@ -55,7 +55,7 @@ def main(argv):
 		import RPi.GPIO as GPIO
 		from pivideostream import PiVideoStream
 		#vs = PiVideoStream((1296, 736)).start()
-		vs = PiVideoStream((1920, 1080)).start()
+		vs = PiVideoStream((1920, 1088)).start()
 		time.sleep(2)
 	runVideo=True
 	imageCounter=0
