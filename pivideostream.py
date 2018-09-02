@@ -19,10 +19,10 @@ class PiVideoStream:
 		self.rawCapture = PiRGBArray(self.camera, size=resolution)
 		self.stream = self.camera.capture_continuous(self.rawCapture,format="bgr", use_video_port=True)
 		#self.camera.sharpness=100
-		#self.camera.iso=500
+		self.camera.iso=300
 		# initialize the frame and the variable used to indicate
 		# if the thread should be stopped
-		#self.camera.awb_mode="incandescent"
+		self.camera.awb_mode="incandescent"
 		print("resolution: ",self.camera.resolution)
 		#print("awb: ",self.camera.awb_mode)
 		self.frame = None
