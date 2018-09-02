@@ -85,14 +85,14 @@ def main(argv):
 		#redOnly=Live.computeRedMinusGB(grabbedFrame)
 		#red_Threshold=Live.computeThreshold(redOnly, guiCommands['threshold'])
 		#redThresContour=red_Threshold.copy()
-		contour_ext=Live.get_selected_contour(mask, 0)
+		#contour_ext=Live.get_selected_contour(mask, 0)
 		
 		if guiCommands['previewRaw']==True: 
 			cv2.imshow('All',grabbedFrame)
 			cv2.imshow('Mask',mask)
 			cv2.imshow('Filtered',filtered)
 			#cv2.imshow('All-BG',cv2.subtract(grabbedFrame,background))
-			Live.showContour(grabbedFrame, contour_ext)
+			#Live.showContour(grabbedFrame, contour_ext)
 			#cv2.imshow('red',red_Threshold)
 			#cv2.imshow('RedOnly',redOnly)
 			'''
